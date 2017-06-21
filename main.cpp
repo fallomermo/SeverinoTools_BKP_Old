@@ -1,11 +1,12 @@
-#include "workstation.h"
+#include "principal.h"
 #include <QApplication>
+#include <QSplashScreen>
+#include <QTimer>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    WorkStation w;
+    Principal w;
     w.show();
-
     return a.exec();
 }

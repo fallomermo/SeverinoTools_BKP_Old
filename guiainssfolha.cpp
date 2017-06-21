@@ -1,81 +1,92 @@
-#include "relacaocolaborador.h"
-#include "ui_relacaocolaborador.h"
+#include "guiainssfolha.h"
+#include "ui_guiainssfolha.h"
 
-RelacaoColaborador::RelacaoColaborador(QWidget *parent) :
+GuiaINSSFolha::GuiaINSSFolha(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RelacaoColaborador)
+    ui(new Ui::GuiaINSSFolha)
 {
     ui->setupUi(this);
-}
-
-RelacaoColaborador::RelacaoColaborador(QWidget *parent, QMap<int, CadastroEmpresa *> ce, QMap<int, CadastroFilial *> cf) :
-    QWidget(parent),
-    ui(new Ui::RelacaoColaborador)
-{
-    ui->setupUi(this);
-    this->setMapEmpresas(ce);
-    this->setMapFiliais(cf);
-    ui->dataReferencia->setDate(QDateTime::currentDateTime().date());
-    connect(ui->campoID_Empresa, SIGNAL(returnPressed()), this, SLOT(retornaCadastroEmpresa()));
-    connect(ui->campoID_Filial, SIGNAL(returnPressed()), this, SLOT(retornaCadastroFilial()));
+    ui->periodoInicial->setDate(QDateTime::currentDateTime().date());
+    ui->periodoFinal->setDate(QDateTime::currentDateTime().date());
+    connect(ui->periodoInicial, SIGNAL(editingFinished()), this, SLOT(focusPeriodoInicial()));
+    connect(ui->periodoFinal, SIGNAL(editingFinished()), this, SLOT(focusPeriodoFinal()));
+    ui->campoPesquisarObjetosTabela->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
+    ui->campoPesquisarObjetosTabela->setPlaceholderText(QString("Pesquisar Itens na Tabela"));
     QAction *_act_emp = ui->campoID_Empresa->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
-    QAction *_act_fil = ui->campoID_Filial->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
     connect(_act_emp, SIGNAL(triggered(bool)), this, SLOT(pesquisarEmpresa()));
+    QAction *_act_fil = ui->campoID_Filial->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
     connect(_act_fil, SIGNAL(triggered(bool)), this, SLOT(pesquisarFilial()));
+    connect(ui->campoPesquisarObjetosTabela, SIGNAL(textChanged(QString)), this, SLOT(filtroItemTabela(QString)));
+    connect(ui->campoID_Empresa, SIGNAL(returnPressed()), this, SLOT(retornaCadastroEmpresa()));
+    connect(ui->campoID_Filial, SIGNAL(returnPressed()), this, SLOT(retornaCadastroFilial(QString)));
     connect(ui->botaoProcessar, SIGNAL(clicked(bool)), this, SLOT(getDatatable()));
     connect(ui->botaoExportar, SIGNAL(clicked(bool)), this, SLOT(exportarParaExcel()));
 
-    QStringList labels = QStringList() << "Codigo da Empresa"
+    QStringList labels = QStringList() << "ID Empresa"
                                        << "Empresa"
-                                       << "Codigo da Filial"
+                                       << "ID Filial"
                                        << "Filial"
                                        << "CNPJ"
-                                       << "Matricula"
-                                       << "CPF"
-                                       << "Nome"
-                                       << "Data de Admissao"
-                                       << "Data de Nascimento"
-                                       << "Codigo de Vinculo"
-                                       << "Tabela de Organograma"
-                                       << "Numero do Local"
-                                       << "Hierarquia de Local"
+                                       << "Cidade Região"
+                                       << "Cálculo"
+                                       << "Competência"
                                        << "Setor"
-                                       << "Estrutura de Cargos"
-                                       << "Codigo do Cargo"
-                                       << "Cargo"
-                                       << "Tipo de Salário"
-                                       << "Salário";
+                                       << "Código do Evento"
+                                       << "Descrição do Evento"
+                                       << "Tipo Evento"
+                                       << "Valor";
     ui->tableWidget->setColumnCount(labels.count());
     ui->tableWidget->setHorizontalHeaderLabels(labels);
     ui->tableWidget->resizeColumnsToContents();
 }
 
-RelacaoColaborador::~RelacaoColaborador()
+GuiaINSSFolha::GuiaINSSFolha(QWidget *parent, QMap<int, CadastroEmpresa *> ce, QMap<int, CadastroFilial *> cf) :
+    QWidget(parent),
+    ui(new Ui::GuiaINSSFolha)
+{
+    ui->setupUi(this);
+    this->setMapEmpresas(ce);
+    this->setMapFiliais(cf);
+    ui->periodoInicial->setDate(QDateTime::currentDateTime().date());
+    ui->periodoFinal->setDate(QDateTime::currentDateTime().date());
+    connect(ui->periodoInicial, SIGNAL(editingFinished()), this, SLOT(focusPeriodoInicial()));
+    connect(ui->periodoFinal, SIGNAL(editingFinished()), this, SLOT(focusPeriodoFinal()));
+    ui->campoPesquisarObjetosTabela->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
+    ui->campoPesquisarObjetosTabela->setPlaceholderText(QString("Pesquisar Itens na Tabela"));
+    QAction *_act_emp = ui->campoID_Empresa->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
+    connect(_act_emp, SIGNAL(triggered(bool)), this, SLOT(pesquisarEmpresa()));
+    QAction *_act_fil = ui->campoID_Filial->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
+    connect(_act_fil, SIGNAL(triggered(bool)), this, SLOT(pesquisarFilial()));
+    connect(ui->campoPesquisarObjetosTabela, SIGNAL(textChanged(QString)), this, SLOT(filtroItemTabela(QString)));
+    connect(ui->campoID_Empresa, SIGNAL(returnPressed()), this, SLOT(pesquisarEmpresa()));
+    connect(ui->campoID_Filial, SIGNAL(returnPressed()), this, SLOT(pesquisarFilial()));
+    connect(ui->botaoProcessar, SIGNAL(clicked(bool)), this, SLOT(getDatatable()));
+    connect(ui->botaoExportar, SIGNAL(clicked(bool)), this, SLOT(exportarParaExcel()));
+
+    QStringList labels = QStringList() << "ID Empresa"
+                                       << "Empresa"
+                                       << "ID Filial"
+                                       << "Filial"
+                                       << "CNPJ"
+                                       << "Cidade Região"
+                                       << "Cálculo"
+                                       << "Competência"
+                                       << "Setor"
+                                       << "Código do Evento"
+                                       << "Descrição do Evento"
+                                       << "Tipo Evento"
+                                       << "Valor";
+    ui->tableWidget->setColumnCount(labels.count());
+    ui->tableWidget->setHorizontalHeaderLabels(labels);
+    ui->tableWidget->resizeColumnsToContents();
+}
+
+GuiaINSSFolha::~GuiaINSSFolha()
 {
     delete ui;
 }
 
-QMap<int, CadastroEmpresa *> RelacaoColaborador::getMapEmpresas() const
-{
-    return mapEmpresas;
-}
-
-void RelacaoColaborador::setMapEmpresas(const QMap<int, CadastroEmpresa *> &value)
-{
-    mapEmpresas = value;
-}
-
-QMap<int, CadastroFilial *> RelacaoColaborador::getMapFiliais() const
-{
-    return mapFiliais;
-}
-
-void RelacaoColaborador::setMapFiliais(const QMap<int, CadastroFilial *> &value)
-{
-    mapFiliais = value;
-}
-
-void RelacaoColaborador::filtroItemTabela(QString filter)
+void GuiaINSSFolha::filtroItemTabela(QString filter)
 {
     for( int i = 0; i < ui->tableWidget->rowCount(); ++i ) {
         bool match = false;
@@ -90,7 +101,17 @@ void RelacaoColaborador::filtroItemTabela(QString filter)
     }
 }
 
-void RelacaoColaborador::pesquisarEmpresa()
+void GuiaINSSFolha::focusPeriodoInicial()
+{
+    ui->periodoFinal->setFocus();
+}
+
+void GuiaINSSFolha::focusPeriodoFinal()
+{
+    ui->campoID_Empresa->setFocus();
+}
+
+void GuiaINSSFolha::pesquisarEmpresa()
 {
     Pesquisar * p = new Pesquisar(this, getMapEmpresas(), getMapFiliais(), "", 1);
     p->setWindowModality(Qt::ApplicationModal);
@@ -100,13 +121,13 @@ void RelacaoColaborador::pesquisarEmpresa()
     p->show();
 }
 
-void RelacaoColaborador::setEmpresa(QString e)
+void GuiaINSSFolha::setEmpresa(QString e)
 {
     ui->campoID_Empresa->setText(e);
     retornaCadastroEmpresa();
 }
 
-void RelacaoColaborador::pesquisarFilial()
+void GuiaINSSFolha::pesquisarFilial()
 {
     Pesquisar * p = new Pesquisar(this, getMapEmpresas(), getMapFiliais(), ui->campoID_Empresa->text(), 2);
     p->setWindowModality(Qt::ApplicationModal);
@@ -116,13 +137,13 @@ void RelacaoColaborador::pesquisarFilial()
     p->show();
 }
 
-void RelacaoColaborador::setFilial(QString f)
+void GuiaINSSFolha::setFilial(QString f)
 {
     ui->campoID_Filial->setText(f);
     retornaCadastroFilial(f);
 }
 
-void RelacaoColaborador::retornaCadastroEmpresa()
+void GuiaINSSFolha::retornaCadastroEmpresa()
 {
     QMapIterator<int, CadastroEmpresa*> mi(getMapEmpresas());
     QString _nomeEmpresa;
@@ -146,7 +167,7 @@ void RelacaoColaborador::retornaCadastroEmpresa()
     }
 }
 
-void RelacaoColaborador::retornaCadastroFilial()
+void GuiaINSSFolha::retornaCadastroFilial()
 {
     QString _ID_Filial = ui->campoID_Filial->text();
     if(ui->campoID_Empresa->text().isEmpty()) {
@@ -172,12 +193,12 @@ void RelacaoColaborador::retornaCadastroFilial()
         } else {
             ui->campoID_Filial->setText(_ID_Filial);
             ui->campoDescricaoFilial->setText(_nomeFilial);
-            ui->dataReferencia->setFocus();
+            ui->botaoProcessar->setFocus();
         }
     }
 }
 
-void RelacaoColaborador::retornaCadastroFilial(QString _ID_Filial)
+void GuiaINSSFolha::retornaCadastroFilial(QString _ID_Filial)
 {
     if(ui->campoID_Empresa->text().isEmpty()) {
         QMessageBox::critical(this, tr("Seleção de Filtro"), QString("Nenhuma Empresa Selecionada"), QMessageBox::Ok);
@@ -202,12 +223,12 @@ void RelacaoColaborador::retornaCadastroFilial(QString _ID_Filial)
         } else {
             ui->campoID_Filial->setText(_ID_Filial);
             ui->campoDescricaoFilial->setText(_nomeFilial);
-            ui->dataReferencia->setFocus();
+            ui->botaoProcessar->setFocus();
         }
     }
 }
 
-void RelacaoColaborador::getDatatable()
+void GuiaINSSFolha::getDatatable()
 {
     QProgressDialog progresso("Trabalhando em sua requisição, aguarde...", "Cancelar", 0, 100, this, Qt::Dialog);
     progresso.setWindowModality(Qt::ApplicationModal);
@@ -220,19 +241,34 @@ void RelacaoColaborador::getDatatable()
     progresso.setRange(0,1);
     progresso.setValue(0);
     progresso.setRange(0,0);
+    
 
-    QDate __tempDate = ui->dataReferencia->date();
     controle = new ControleDAO(this);
-    QMap<int, CadastroColaborador*> __tempMap = controle->getColaboradoresAtivos(ui->campoID_Empresa->text().trimmed(),
-                                                                                 ui->campoID_Filial->text().trimmed(),
-                                                                                 __tempDate,
-                                                                                 QString(""));
+    QDate _tempDateIni = ui->periodoInicial->date();
+    QDate _tempDateFim = ui->periodoFinal->date();
+    int _anoComIni = _tempDateIni.year();
+    int _mesComIni = _tempDateIni.month();
+    int _diaComIni = 1;
+    QDate __dataIni( _anoComIni, _mesComIni, _diaComIni );
+
+    int _anoComFim = _tempDateFim.year();
+    int _mesComFim = _tempDateFim.month();
+    int _diaComFim = 1;
+    QDate __dataFim( _anoComFim, _mesComFim, _diaComFim );
+
+    QMap<int, Eventos*> __tempMap = controle->getGuiaINSS(
+                ui->campoID_Empresa->text(),
+                ui->campoID_Filial->text(),
+                __dataIni.toString(Qt::ISODate),
+                __dataFim.toString(Qt::ISODate));
+    progresso.setLabelText("Processando dados...");
 
     if(__tempMap.isEmpty()) {
         QMessageBox::information(this, tr("Eventos GUIA INSS"), QString("Nenhuma informação encontrada!"), QMessageBox::Ok);
         return;
     }
-    QMapIterator<int, CadastroColaborador*> __mapIterator(__tempMap);
+
+    QMapIterator<int, Eventos*> __mapIterator(__tempMap);
     progresso.setMaximum(__tempMap.count());
 
     ui->tableWidget->setRowCount(__tempMap.count());
@@ -240,86 +276,70 @@ void RelacaoColaborador::getDatatable()
     while (__mapIterator.hasNext()) {
         __mapIterator.next();
         progresso.setValue(__mapIterator.key());
-        CadastroColaborador *colaborador = (CadastroColaborador*)__mapIterator.value();
-        inserirLinhaTabela(linha, ui->tableWidget->colorCount(), colaborador);
+        Eventos *evento = __mapIterator.value();
+        inserirLinhaTabela(linha, ui->tableWidget->columnCount(), evento);
         linha++;
     }
     ui->tableWidget->resizeColumnsToContents();
 }
 
-void RelacaoColaborador::inserirItemTabela(int r, int c, QString sValue)
+void GuiaINSSFolha::inserirItemTabela(int r, int c, QString sValue)
 {
     ui->tableWidget->setItem(r,c,new QTableWidgetItem(sValue));
 }
 
-void RelacaoColaborador::inserirItemTabela(int r, int c, QDate dtValue)
+void GuiaINSSFolha::inserirItemTabela(int r, int c, QDate dtValue)
 {
     ui->tableWidget->setItem(r,c,new QTableWidgetItem(QDate(dtValue).toString("dd/MM/yyyy")));
 }
 
-void RelacaoColaborador::inserirItemTabela(int r, int c, double dValue)
+void GuiaINSSFolha::inserirItemTabela(int r, int c, double dValue)
 {
     QTableWidgetItem *item = new QTableWidgetItem(QString("%L1").arg(dValue, 12, 'f', 4));
     item->setTextAlignment(Qt::AlignRight);
     ui->tableWidget->setItem(r,c,item);
 }
 
-void RelacaoColaborador::inserirItemTabela(int r, int c, int iValue)
+void GuiaINSSFolha::inserirItemTabela(int r, int c, int iValue)
 {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(iValue));
     item->setTextAlignment(Qt::AlignCenter);
     ui->tableWidget->setItem(r,c,item);
 }
 
-void RelacaoColaborador::inserirLinhaTabela(int linha, int nrColunas, CadastroColaborador *colaborador)
+void GuiaINSSFolha::inserirLinhaTabela(int linha, int nrColunas, Eventos *evento)
 {
     for (int coluna = 0; coluna < nrColunas; ++coluna) {
         if(coluna == 0)
-            inserirItemTabela(linha, coluna, colaborador->getCodigoDaEmpresa() );
+            inserirItemTabela(linha, coluna, evento->getID_Empresa());
         if(coluna == 1)
-            inserirItemTabela(linha, coluna, colaborador->getEmpresa() );
+            inserirItemTabela(linha, coluna, evento->getEmpresa());
         if(coluna == 2)
-            inserirItemTabela(linha, coluna, colaborador->getCodigoDaFilial() );
+            inserirItemTabela(linha, coluna, evento->getID_Filial());
         if(coluna == 3)
-            inserirItemTabela(linha, coluna, colaborador->getFilial() );
+            inserirItemTabela(linha, coluna, evento->getFilial());
         if(coluna == 4)
-            inserirItemTabela(linha, coluna, colaborador->getCNPJ() );
+            inserirItemTabela(linha, coluna, evento->getCnpj());
         if(coluna == 5)
-            inserirItemTabela(linha, coluna, colaborador->getMatricula() );
+            inserirItemTabela(linha, coluna, evento->getCidadeRegiao());
         if(coluna == 6)
-            inserirItemTabela(linha, coluna, colaborador->getCPF() );
+            inserirItemTabela(linha, coluna, evento->getCalculo());
         if(coluna == 7)
-            inserirItemTabela(linha, coluna, colaborador->getPIS() );
+            inserirItemTabela(linha, coluna, evento->getCompetencia().toString("dd/MM/yyyy"));
         if(coluna == 8)
-            inserirItemTabela(linha, coluna, colaborador->getNome() );
+            inserirItemTabela(linha, coluna, evento->getSetor());
         if(coluna == 9)
-            inserirItemTabela(linha, coluna, colaborador->getDataDeAdmissao().toString("dd/MM/yyyy") );
+            inserirItemTabela(linha, coluna, evento->getCodigoEvento());
         if(coluna == 10)
-            inserirItemTabela(linha, coluna, colaborador->getDataDeNascimento().toString("dd/MM/yyyy") );
+            inserirItemTabela(linha, coluna, evento->getEvento());
         if(coluna == 11)
-            inserirItemTabela(linha, coluna, colaborador->getCodigoDeVinculo() );
+            inserirItemTabela(linha, coluna, evento->getTipoEvento());
         if(coluna == 12)
-            inserirItemTabela(linha, coluna, colaborador->getTabelaDeOrganograma() );
-        if(coluna == 13)
-            inserirItemTabela(linha, coluna, colaborador->getNumeroDoLocal() );
-        if(coluna == 14)
-            inserirItemTabela(linha, coluna, colaborador->getHierarquiaDeLocal() );
-        if(coluna == 15)
-            inserirItemTabela(linha, coluna, colaborador->getSetor() );
-        if(coluna == 16)
-            inserirItemTabela(linha, coluna, colaborador->getEstruturaDeCargos() );
-        if(coluna == 17)
-            inserirItemTabela(linha, coluna, colaborador->getCodigoDoCargo() );
-        if(coluna == 18)
-            inserirItemTabela(linha, coluna, colaborador->getCargo() );
-        if(coluna == 19)
-            inserirItemTabela(linha, coluna, colaborador->getTipoDeSalario() );
-        if(coluna == 20)
-            inserirItemTabela(linha, coluna, colaborador->getSalario() );
+            inserirItemTabela(linha, coluna, evento->getValorEvento());
     }
 }
 
-void RelacaoColaborador::exportarParaExcel()
+void GuiaINSSFolha::exportarParaExcel()
 {
     if(ui->tableWidget->rowCount() <= 0) {
         QMessageBox::critical(this, tr("Exportar Dados da Tabela"), QString("Não existe informação para exportar!!!"), QMessageBox::Ok);
@@ -339,7 +359,7 @@ void RelacaoColaborador::exportarParaExcel()
         else
             nomeArquivoTitulo = ui->campoDescricaoFilial->text().replace(' ','_');
 
-        QString _nomeArquivo = "/"+nomeArquivoTitulo+"_"+ui->dataReferencia->text().replace('/','-');
+        QString _nomeArquivo = "/"+nomeArquivoTitulo+"_"+ui->periodoInicial->text().replace('/','-')+"_"+ui->periodoFinal->text().replace('/','-');
         QString filename = QFileDialog::getSaveFileName(this, tr("Exportação CSV"), QDir::homePath()+QString(_nomeArquivo), "CSV (*.csv)");
         if(filename.isEmpty())
             return;
@@ -366,3 +386,24 @@ void RelacaoColaborador::exportarParaExcel()
         }
     }
 }
+
+QMap<int, CadastroFilial *> GuiaINSSFolha::getMapFiliais() const
+{
+    return mapFiliais;
+}
+
+void GuiaINSSFolha::setMapFiliais(const QMap<int, CadastroFilial *> &value)
+{
+    mapFiliais = value;
+}
+
+QMap<int, CadastroEmpresa *> GuiaINSSFolha::getMapEmpresas() const
+{
+    return mapEmpresas;
+}
+
+void GuiaINSSFolha::setMapEmpresas(const QMap<int, CadastroEmpresa *> &value)
+{
+    mapEmpresas = value;
+}
+

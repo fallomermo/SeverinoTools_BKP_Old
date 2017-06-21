@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,10 +25,46 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        workstation.cpp
+        principal.cpp \
+        planodecontas.cpp \
+        cadastroempresa.cpp \
+        cadastrofilial.cpp \
+        bancodedados.cpp \
+        eventos.cpp \
+        controledao.cpp \
+        pesquisar.cpp \
+        caixademensagem.cpp \
+        planosaude.cpp \
+        ecoclinicrepasses.cpp \
+        guiainssfolha.cpp \
+    cadastrocolaborador.cpp \
+    relacaocolaborador.cpp
 
 HEADERS += \
-        workstation.h
+        principal.h \
+        planodecontas.h \
+        cadastroempresa.h \
+        cadastrofilial.h \
+        bancodedados.h \
+        eventos.h \
+        controledao.h \
+        pesquisar.h \
+        caixademensagem.h \
+        planosaude.h \
+        ecoclinicrepasses.h \
+        guiainssfolha.h \
+    cadastrocolaborador.h \
+    relacaocolaborador.h
 
 FORMS += \
-        workstation.ui
+        principal.ui \
+        planodecontas.ui \
+        pesquisar.ui \
+        caixademensagem.ui \
+        planosaude.ui \
+        guiainssfolha.ui \
+    relacaocolaborador.ui
+
+RESOURCES += \
+        thema.qrc
+

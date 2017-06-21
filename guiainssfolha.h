@@ -1,33 +1,33 @@
-#ifndef RELACAOCOLABORADOR_H
-#define RELACAOCOLABORADOR_H
+#ifndef GUIAINSSFOLHA_H
+#define GUIAINSSFOLHA_H
 
-#include <QMap>
-#include <QFile>
 #include <QWidget>
-#include <QFileDialog>
-#include <QMessageBox>
+#include <QMap>
 #include <QProgressDialog>
-#include <QMapIterator>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
+#include <QSharedPointer>
+#include <QMovie>
 
-
-#include "pesquisar.h"
-#include "controledao.h"
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
-#include "cadastrocolaborador.h"
+#include "pesquisar.h"
+#include "eventos.h"
+#include "controledao.h"
 
 namespace Ui {
-class RelacaoColaborador;
+class GuiaINSSFolha;
 }
 
-class RelacaoColaborador : public QWidget
+class GuiaINSSFolha : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit RelacaoColaborador(QWidget *parent = 0);
-    RelacaoColaborador(QWidget *parent, QMap<int, CadastroEmpresa *> ce, QMap<int, CadastroFilial *> cf);
-    ~RelacaoColaborador();
+    explicit GuiaINSSFolha(QWidget *parent = 0);
+    GuiaINSSFolha(QWidget *parent, QMap<int, CadastroEmpresa *> ce, QMap<int, CadastroFilial *> cf);
+    ~GuiaINSSFolha();
 
     QMap<int, CadastroEmpresa *> getMapEmpresas() const;
     void setMapEmpresas(const QMap<int, CadastroEmpresa *> &value);
@@ -37,6 +37,8 @@ public:
 
 private slots:
     void filtroItemTabela(QString);
+    void focusPeriodoInicial();
+    void focusPeriodoFinal();
     void pesquisarEmpresa();
     void setEmpresa(QString);
     void pesquisarFilial();
@@ -49,14 +51,14 @@ private slots:
     void inserirItemTabela(int,int,QDate);
     void inserirItemTabela(int, int, double);
     void inserirItemTabela(int,int,int);
-    void inserirLinhaTabela(int, int, CadastroColaborador *);
+    void inserirLinhaTabela(int, int, Eventos *);
     void exportarParaExcel();
 
 private:
-    Ui::RelacaoColaborador *ui;
+    Ui::GuiaINSSFolha *ui;
     QMap<int, CadastroEmpresa *> mapEmpresas;
     QMap<int, CadastroFilial *> mapFiliais;
     ControleDAO *controle;
 };
 
-#endif // RELACAOCOLABORADOR_H
+#endif // GUIAINSSFOLHA_H
