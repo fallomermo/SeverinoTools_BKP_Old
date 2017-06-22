@@ -24,47 +24,47 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        principal.cpp \
-        planodecontas.cpp \
-        cadastroempresa.cpp \
-        cadastrofilial.cpp \
-        bancodedados.cpp \
-        eventos.cpp \
-        controledao.cpp \
-        pesquisar.cpp \
-        caixademensagem.cpp \
-        planosaude.cpp \
-        ecoclinicrepasses.cpp \
-        guiainssfolha.cpp \
+    main.cpp \
+    principal.cpp \
+    planodecontas.cpp \
+    cadastroempresa.cpp \
+    cadastrofilial.cpp \
+    bancodedados.cpp \
+    eventos.cpp \
+    controledao.cpp \
+    pesquisar.cpp \
+    caixademensagem.cpp \
+    planosaude.cpp \
+    ecoclinicrepasses.cpp \
+    guiainssfolha.cpp \
     cadastrocolaborador.cpp \
     relacaocolaborador.cpp
 
 HEADERS += \
-        principal.h \
-        planodecontas.h \
-        cadastroempresa.h \
-        cadastrofilial.h \
-        bancodedados.h \
-        eventos.h \
-        controledao.h \
-        pesquisar.h \
-        caixademensagem.h \
-        planosaude.h \
-        ecoclinicrepasses.h \
-        guiainssfolha.h \
+    principal.h \
+    planodecontas.h \
+    cadastroempresa.h \
+    cadastrofilial.h \
+    bancodedados.h \
+    eventos.h \
+    controledao.h \
+    pesquisar.h \
+    caixademensagem.h \
+    planosaude.h \
+    ecoclinicrepasses.h \
+    guiainssfolha.h \
     cadastrocolaborador.h \
     relacaocolaborador.h
 
 FORMS += \
-        principal.ui \
-        planodecontas.ui \
-        pesquisar.ui \
-        caixademensagem.ui \
-        planosaude.ui \
-        guiainssfolha.ui \
+    principal.ui \
+    planodecontas.ui \
+    pesquisar.ui \
+    caixademensagem.ui \
+    planosaude.ui \
+    guiainssfolha.ui \
     relacaocolaborador.ui
 
 RESOURCES += \
-        thema.qrc
+    thema.qrc
 

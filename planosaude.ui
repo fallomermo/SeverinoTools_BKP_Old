@@ -104,7 +104,7 @@
         </property>
         <property name="icon">
          <iconset resource="thema.qrc">
-          <normaloff>:/images/botaoProcessar.png</normaloff>:/images/botaoProcessar.png</iconset>
+          <normaloff>:/images/paper-plane.png</normaloff>:/images/paper-plane.png</iconset>
         </property>
        </widget>
       </item>

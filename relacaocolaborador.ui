@@ -33,12 +33,20 @@
           <property name="text">
            <string>Processar</string>
           </property>
+          <property name="icon">
+           <iconset resource="thema.qrc">
+            <normaloff>:/images/paper-plane.png</normaloff>:/images/paper-plane.png</iconset>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="botaoExportar">
           <property name="text">
            <string>Exportar</string>
+          </property>
+          <property name="icon">
+           <iconset resource="thema.qrc">
+            <normaloff>:/images/csv-file-format-extension.png</normaloff>:/images/csv-file-format-extension.png</iconset>
           </property>
          </widget>
         </item>
@@ -151,6 +159,8 @@
   <tabstop>botaoExportar</tabstop>
   <tabstop>tableWidget</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="thema.qrc"/>
+ </resources>
  <connections/>
 </ui>
