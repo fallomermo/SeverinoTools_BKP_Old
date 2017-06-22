@@ -659,6 +659,7 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "        fil.razsoc, "
                               "        hfi.codfil, "
                               "        fil.nomfil, "
+                              "        cid.nomcid, "
                               "        fil.numcgc, "
                               "        fun.numcad, "
                               "        fun.numcpf, "
@@ -739,6 +740,9 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "        INNER JOIN r030fil fil  "
                               " 		       ON fil.numemp = fun.numemp "
                               " 				  AND fil.codfil = hfi.codfil "
+                              "        INNER JOIN r074cid cid  "
+                              " 		       ON cid.estcid = fil.codest "
+                              " 				  AND cid.codcid = fil.codcid "
                               "        INNER JOIN r016hie hie  "
                               " 		       ON hie.taborg = hlo.taborg "
                               " 				  AND hie.numloc = hlo.numloc "
@@ -770,33 +774,34 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "           fun.numcad   ").arg(__dataReferencia.toString(Qt::ISODate)).arg(__parametroGeral).arg(__filtroPesquisa);
     QSqlQuery consulta;
     consulta.prepare(comando);
-    qDebug() << consulta.lastQuery();
     consulta.setForwardOnly(true);
     if(consulta.exec()) {
         int pos = 0;
         while (consulta.next()) {
             consulta.next(); pos++;
-            colaborador->setCodigoDaEmpresa( consulta.value("numemp").toString() );
-            colaborador->setEmpresa( consulta.value("razsoc").toString() );
-            colaborador->setCodigoDaFilial( consulta.value("codfil").toString() );
-            colaborador->setFilial( consulta.value("nomfil").toString() );
-            colaborador->setCNPJ( consulta.value("numcgc").toString() );
-            colaborador->setMatricula( consulta.value("numcad").toString() );
-            colaborador->setCPF( consulta.value("numcpf").toString() );
-            colaborador->setPIS( consulta.value("numpis").toString() );
-            colaborador->setNome( consulta.value("nomfun").toString() );
-            colaborador->setDataDeAdmissao( QVariant( consulta.value("datadm") ).toDate() );
-            colaborador->setDataDeNascimento( QVariant( consulta.value("datnas") ).toDate() );
-            colaborador->setCodigoDeVinculo( consulta.value("codvin").toString() );
-            colaborador->setTabelaDeOrganograma( consulta.value("taborg").toString() );
-            colaborador->setNumeroDoLocal( consulta.value("numloc").toString() );
-            colaborador->setHierarquiaDeLocal( consulta.value("codloc").toString() );
-            colaborador->setSetor( consulta.value("nomloc").toString() );
-            colaborador->setEstruturaDeCargos( consulta.value("estcar").toString() );
-            colaborador->setCodigoDoCargo( consulta.value("codcar").toString() );
-            colaborador->setCargo( consulta.value("titcar").toString() );
-            colaborador->setTipoDeSalario( consulta.value("tipsal").toInt(nullptr) );
-            colaborador->setSalario( consulta.value("valsal").toDouble(nullptr) );
+            colaborador = new CadastroColaborador(nullptr);
+            colaborador->setCodigoDaEmpresa( consulta.value(0).toString());
+            colaborador->setEmpresa( consulta.value(1).toString() );
+            colaborador->setCodigoDaFilial( consulta.value(2).toString() );
+            colaborador->setFilial( consulta.value(3).toString() );
+            colaborador->setCidadeRegiao( consulta.value(4).toString() );
+            colaborador->setCNPJ( consulta.value(5).toString() );
+            colaborador->setMatricula( consulta.value(6).toString() );
+            colaborador->setCPF( consulta.value(7).toString() );
+            colaborador->setPIS( consulta.value(8).toString() );
+            colaborador->setNome( consulta.value(9).toString() );
+            colaborador->setDataDeAdmissao( QVariant( consulta.value(10) ).toDate() );
+            colaborador->setDataDeNascimento( QVariant( consulta.value(11) ).toDate() );
+            colaborador->setCodigoDeVinculo( consulta.value(12).toString() );
+            colaborador->setTabelaDeOrganograma( consulta.value(12).toString() );
+            colaborador->setNumeroDoLocal( consulta.value(14).toString() );
+            colaborador->setHierarquiaDeLocal( consulta.value(15).toString() );
+            colaborador->setSetor( consulta.value(16).toString() );
+            colaborador->setEstruturaDeCargos( consulta.value(17).toString() );
+            colaborador->setCodigoDoCargo( consulta.value(18).toString() );
+            colaborador->setCargo( consulta.value(19).toString() );
+            colaborador->setTipoDeSalario( consulta.value(20).toInt(nullptr) );
+            colaborador->setSalario( consulta.value(21).toDouble(nullptr) );
             __tempMap.insert(pos, colaborador);
 
         }

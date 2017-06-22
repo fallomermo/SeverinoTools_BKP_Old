@@ -205,6 +205,16 @@ void CadastroColaborador::setSalario(double value)
     Salario = value;
 }
 
+QString CadastroColaborador::getCidadeRegiao() const
+{
+    return CidadeRegiao;
+}
+
+void CadastroColaborador::setCidadeRegiao(const QString &value)
+{
+    CidadeRegiao = value;
+}
+
 QString CadastroColaborador::getPIS() const
 {
     return PIS;

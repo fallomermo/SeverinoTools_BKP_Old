@@ -15,11 +15,12 @@ RelacaoColaborador::RelacaoColaborador(QWidget *parent, QMap<int, CadastroEmpres
     ui->setupUi(this);
     this->setMapEmpresas(ce);
     this->setMapFiliais(cf);
-    ui->dataReferencia->setDate(QDateTime::currentDateTime().date());
     connect(ui->campoID_Empresa, SIGNAL(returnPressed()), this, SLOT(retornaCadastroEmpresa()));
     connect(ui->campoID_Filial, SIGNAL(returnPressed()), this, SLOT(retornaCadastroFilial()));
     QAction *_act_emp = ui->campoID_Empresa->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
     QAction *_act_fil = ui->campoID_Filial->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
+    ui->campoPesquisarObjetosTabela->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
+    connect(ui->campoPesquisarObjetosTabela, SIGNAL(textChanged(QString)), this, SLOT(filtroItemTabela(QString)));
     connect(_act_emp, SIGNAL(triggered(bool)), this, SLOT(pesquisarEmpresa()));
     connect(_act_fil, SIGNAL(triggered(bool)), this, SLOT(pesquisarFilial()));
     connect(ui->botaoProcessar, SIGNAL(clicked(bool)), this, SLOT(getDatatable()));
@@ -29,9 +30,11 @@ RelacaoColaborador::RelacaoColaborador(QWidget *parent, QMap<int, CadastroEmpres
                                        << "Empresa"
                                        << "Codigo da Filial"
                                        << "Filial"
+                                       << "Cidade Região"
                                        << "CNPJ"
                                        << "Matricula"
                                        << "CPF"
+                                       << "PIS"
                                        << "Nome"
                                        << "Data de Admissao"
                                        << "Data de Nascimento"
@@ -223,17 +226,17 @@ void RelacaoColaborador::getDatatable()
 
     QDate __tempDate = ui->dataReferencia->date();
     controle = new ControleDAO(this);
-    QMap<int, CadastroColaborador*> __tempMap = controle->getColaboradoresAtivos(ui->campoID_Empresa->text().trimmed(),
-                                                                                 ui->campoID_Filial->text().trimmed(),
-                                                                                 __tempDate,
-                                                                                 QString(""));
+    QMap<int, CadastroColaborador*> __tempMap = controle->getColaboradoresAtivos(ui->campoID_Empresa->text().trimmed(), ui->campoID_Filial->text().trimmed(), __tempDate, QString(""));
 
     if(__tempMap.isEmpty()) {
         QMessageBox::information(this, tr("Eventos GUIA INSS"), QString("Nenhuma informação encontrada!"), QMessageBox::Ok);
         return;
     }
+
     QMapIterator<int, CadastroColaborador*> __mapIterator(__tempMap);
     progresso.setMaximum(__tempMap.count());
+
+    qDebug() << "Numero de Colaboradores: " << __tempMap.count();
 
     ui->tableWidget->setRowCount(__tempMap.count());
     int linha = 0;
@@ -283,38 +286,40 @@ void RelacaoColaborador::inserirLinhaTabela(int linha, int nrColunas, CadastroCo
         if(coluna == 3)
             inserirItemTabela(linha, coluna, colaborador->getFilial() );
         if(coluna == 4)
-            inserirItemTabela(linha, coluna, colaborador->getCNPJ() );
+            inserirItemTabela(linha, coluna, colaborador->getCidadeRegiao() );
         if(coluna == 5)
-            inserirItemTabela(linha, coluna, colaborador->getMatricula() );
+            inserirItemTabela(linha, coluna, colaborador->getCNPJ() );
         if(coluna == 6)
-            inserirItemTabela(linha, coluna, colaborador->getCPF() );
+            inserirItemTabela(linha, coluna, colaborador->getMatricula() );
         if(coluna == 7)
-            inserirItemTabela(linha, coluna, colaborador->getPIS() );
+            inserirItemTabela(linha, coluna, colaborador->getCPF() );
         if(coluna == 8)
-            inserirItemTabela(linha, coluna, colaborador->getNome() );
+            inserirItemTabela(linha, coluna, colaborador->getPIS() );
         if(coluna == 9)
-            inserirItemTabela(linha, coluna, colaborador->getDataDeAdmissao().toString("dd/MM/yyyy") );
+            inserirItemTabela(linha, coluna, colaborador->getNome() );
         if(coluna == 10)
-            inserirItemTabela(linha, coluna, colaborador->getDataDeNascimento().toString("dd/MM/yyyy") );
+            inserirItemTabela(linha, coluna, colaborador->getDataDeAdmissao().toString("dd/MM/yyyy") );
         if(coluna == 11)
-            inserirItemTabela(linha, coluna, colaborador->getCodigoDeVinculo() );
+            inserirItemTabela(linha, coluna, colaborador->getDataDeNascimento().toString("dd/MM/yyyy") );
         if(coluna == 12)
-            inserirItemTabela(linha, coluna, colaborador->getTabelaDeOrganograma() );
+            inserirItemTabela(linha, coluna, colaborador->getCodigoDeVinculo() );
         if(coluna == 13)
-            inserirItemTabela(linha, coluna, colaborador->getNumeroDoLocal() );
+            inserirItemTabela(linha, coluna, colaborador->getTabelaDeOrganograma() );
         if(coluna == 14)
-            inserirItemTabela(linha, coluna, colaborador->getHierarquiaDeLocal() );
+            inserirItemTabela(linha, coluna, colaborador->getNumeroDoLocal() );
         if(coluna == 15)
-            inserirItemTabela(linha, coluna, colaborador->getSetor() );
+            inserirItemTabela(linha, coluna, colaborador->getHierarquiaDeLocal() );
         if(coluna == 16)
-            inserirItemTabela(linha, coluna, colaborador->getEstruturaDeCargos() );
+            inserirItemTabela(linha, coluna, colaborador->getSetor() );
         if(coluna == 17)
-            inserirItemTabela(linha, coluna, colaborador->getCodigoDoCargo() );
+            inserirItemTabela(linha, coluna, colaborador->getEstruturaDeCargos() );
         if(coluna == 18)
-            inserirItemTabela(linha, coluna, colaborador->getCargo() );
+            inserirItemTabela(linha, coluna, colaborador->getCodigoDoCargo() );
         if(coluna == 19)
-            inserirItemTabela(linha, coluna, colaborador->getTipoDeSalario() );
+            inserirItemTabela(linha, coluna, colaborador->getCargo() );
         if(coluna == 20)
+            inserirItemTabela(linha, coluna, colaborador->getTipoDeSalario() );
+        if(coluna == 21)
             inserirItemTabela(linha, coluna, colaborador->getSalario() );
     }
 }

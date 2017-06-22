@@ -20,15 +20,15 @@ Principal::~Principal()
 
 void Principal::aplicarDefinicoesGerais()
 {
-    qApp->setWindowIcon(QIcon(":/images/IconeSeverino.png"));
+    qApp->setWindowIcon(QIcon(":/images/iconeSeverino.png"));
     ui->toolButton->setPopupMode(QToolButton::InstantPopup);
-    QAction *actionPlanoContas = new QAction("&Plano de Contas",ui->toolButton);
-    QAction *actionPlanoSaude = new QAction("&Plano de Saúde",ui->toolButton);
-    QAction *actionLiquidoFolha = new QAction("&Líquido Folha [No]",ui->toolButton);
-    QAction *actionGuiaINSS = new QAction("&Guia INSS Rateio",ui->toolButton);
-    QAction *actionEventosFolha = new QAction("&Eventos Folha [No]",ui->toolButton);
-    QAction *actionMetaRetencao = new QAction("&Meta Retenção [No]",ui->toolButton);
-    QAction *actionRelacaoColaboradores = new QAction("&Relação de Colaboradores",ui->toolButton);
+    QAction *actionPlanoContas = new QAction(QIcon(":/images/tax.png"), "&Plano de Contas",ui->toolButton);
+    QAction *actionPlanoSaude = new QAction(QIcon(":/images/heart.png"), "&Plano de Saúde",ui->toolButton);
+    QAction *actionLiquidoFolha = new QAction(QIcon(":/images/water-drop.png"), "&Líquido Folha [No]",ui->toolButton);
+    QAction *actionGuiaINSS = new QAction(QIcon(":/images/piggy-bank.png"), "&Guia INSS Rateio",ui->toolButton);
+    QAction *actionEventosFolha = new QAction(QIcon(":/images/"),"&Eventos Folha [No]",ui->toolButton);
+    QAction *actionMetaRetencao = new QAction(QIcon(":/images/stocks-graphic-with-a-magnifier-tool.png"),"&Meta Retenção [No]",ui->toolButton);
+    QAction *actionRelacaoColaboradores = new QAction(QIcon(":/images/team.png"), "&Relação de Colaboradores",ui->toolButton);
     QMenu *menu = new QMenu(ui->toolButton);
 
     connect(actionPlanoContas, SIGNAL(triggered(bool)), this, SLOT(planoContas()));
@@ -84,7 +84,7 @@ void Principal::planoContas()
         QMap<int, CadastroFilial*> mf = mapFiliais;
         pc = new PlanoDeContas(this, me, mf);
         pc->setObjectName("planoContas");
-        ui->tabWidget->addTab(pc, QString("Plano de Contas"));
+        ui->tabWidget->addTab(pc, QIcon(":/images/tax.png"), QString("Plano de Contas"));
         ui->tabWidget->setCurrentWidget(pc);
         _flagPlanoContas = true;
         _indexPlanoContas = ui->tabWidget->indexOf(pc);
@@ -98,7 +98,7 @@ void Principal::planoSaude()
     } else {
         ps = new PlanoSaude(this);
         ps->setObjectName("planoSaude");
-        ui->tabWidget->addTab(ps, QString("Plano de Saúde"));
+        ui->tabWidget->addTab(ps, QIcon(":/images/heart.png"), QString("Plano de Saúde"));
         ui->tabWidget->setCurrentWidget(ps);
         _flagPlanoSaude = true;
         _indexPlanoSaude = ui->tabWidget->indexOf(ps);
@@ -112,7 +112,7 @@ void Principal::guiaInssFolha()
     } else {
         guiaInss = new GuiaINSSFolha(this, mapEmpresas, mapFiliais);
         guiaInss->setObjectName("guiaINSSFolha");
-        ui->tabWidget->addTab(guiaInss, QString("Guia INSS Folha"));
+        ui->tabWidget->addTab(guiaInss, QIcon(":/images/piggy-bank.png"), QString("Guia INSS Folha"));
         ui->tabWidget->setCurrentWidget(guiaInss);
         _flagGuiaINSS = true;
         _indexGuiaINSS = ui->tabWidget->indexOf(guiaInss);
@@ -126,7 +126,7 @@ void Principal::relacaoColaborador()
     } else {
         relCol = new RelacaoColaborador(this, mapEmpresas, mapFiliais);
         relCol->setObjectName("relacaoColaborador");
-        ui->tabWidget->addTab(relCol, QString("Relação de Colaboradores"));
+        ui->tabWidget->addTab(relCol, QIcon(":/images/team.png"), QString("Relação de Colaboradores"));
         ui->tabWidget->setCurrentWidget(relCol);
         _flagRelacaoColaborador = true;
         _indexRelacaoColaborador = ui->tabWidget->indexOf(relCol);
