@@ -22,7 +22,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
 SOURCES += \
     main.cpp \
     principal.cpp \
@@ -33,7 +32,6 @@ SOURCES += \
     eventos.cpp \
     controledao.cpp \
     pesquisar.cpp \
-    caixademensagem.cpp \
     planosaude.cpp \
     ecoclinicrepasses.cpp \
     guiainssfolha.cpp \
@@ -49,7 +47,6 @@ HEADERS += \
     eventos.h \
     controledao.h \
     pesquisar.h \
-    caixademensagem.h \
     planosaude.h \
     ecoclinicrepasses.h \
     guiainssfolha.h \
@@ -60,7 +57,6 @@ FORMS += \
     principal.ui \
     planodecontas.ui \
     pesquisar.ui \
-    caixademensagem.ui \
     planosaude.ui \
     guiainssfolha.ui \
     relacaocolaborador.ui

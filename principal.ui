@@ -34,6 +34,9 @@
    </property>
    <item row="0" column="0">
     <widget class="QFrame" name="framePanel">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -137,6 +140,9 @@
    </item>
    <item row="1" column="0">
     <widget class="QFrame" name="framePanel_InfoSessao">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>

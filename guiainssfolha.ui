@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="2" column="0" colspan="2">
     <widget class="QTableWidget" name="tableWidget"/>
@@ -175,7 +178,7 @@
          <widget class="QDateEdit" name="periodoInicial">
           <property name="minimumSize">
            <size>
-            <width>73</width>
+            <width>150</width>
             <height>0</height>
            </size>
           </property>
@@ -211,7 +214,7 @@
          <widget class="QDateEdit" name="periodoFinal">
           <property name="minimumSize">
            <size>
-            <width>73</width>
+            <width>150</width>
             <height>0</height>
            </size>
           </property>
