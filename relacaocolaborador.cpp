@@ -15,6 +15,7 @@ RelacaoColaborador::RelacaoColaborador(QWidget *parent, QMap<int, CadastroEmpres
     ui->setupUi(this);
     this->setMapEmpresas(ce);
     this->setMapFiliais(cf);
+    ui->dataReferencia->setDate(QDate::currentDate());
     connect(ui->campoID_Empresa, SIGNAL(returnPressed()), this, SLOT(retornaCadastroEmpresa()));
     connect(ui->campoID_Filial, SIGNAL(returnPressed()), this, SLOT(retornaCadastroFilial()));
     QAction *_act_emp = ui->campoID_Empresa->addAction(QIcon(":/images/search.png"), QLineEdit::TrailingPosition);
@@ -224,27 +225,28 @@ void RelacaoColaborador::getDatatable()
     progresso.setValue(0);
     progresso.setRange(0,0);
 
-    QDate __tempDate = ui->dataReferencia->date();
     controle = new ControleDAO(this);
-    QMap<int, CadastroColaborador*> __tempMap = controle->getColaboradoresAtivos(ui->campoID_Empresa->text().trimmed(), ui->campoID_Filial->text().trimmed(), __tempDate, QString(""));
+    QMap<int, CadastroColaborador*> __tempMap = controle->getColaboradoresAtivos(
+                ui->campoID_Empresa->text(),
+                ui->campoID_Filial->text(),
+                ui->dataReferencia->date(),"");
+    progresso.setLabelText("Processando dados...");
 
     if(__tempMap.isEmpty()) {
-        QMessageBox::information(this, tr("Eventos GUIA INSS"), QString("Nenhuma informação encontrada!"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("Relação de Colaboradores"), QString("Nenhuma informação encontrada!"), QMessageBox::Ok);
         return;
     }
 
     QMapIterator<int, CadastroColaborador*> __mapIterator(__tempMap);
     progresso.setMaximum(__tempMap.count());
 
-    qDebug() << "Numero de Colaboradores: " << __tempMap.count();
-
     ui->tableWidget->setRowCount(__tempMap.count());
     int linha = 0;
     while (__mapIterator.hasNext()) {
         __mapIterator.next();
         progresso.setValue(__mapIterator.key());
-        CadastroColaborador *colaborador = (CadastroColaborador*)__mapIterator.value();
-        inserirLinhaTabela(linha, ui->tableWidget->colorCount(), colaborador);
+        CadastroColaborador *cadastro = __mapIterator.value();
+        inserirLinhaTabela(linha, ui->tableWidget->columnCount(), cadastro);
         linha++;
     }
     ui->tableWidget->resizeColumnsToContents();

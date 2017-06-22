@@ -769,17 +769,19 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "                                                        AND tb0.numcad = afa.numcad "
                               "                                                        AND tb0.sitafa = t01.codsit "
                               "                                                        AND t01.tipsit = 7 "
-                              " 													   AND tb0.datafa <= ' %0 ' )) "
-                              " ORDER  BY fun.numemp, "
-                              "           fun.numcad   ").arg(__dataReferencia.toString(Qt::ISODate)).arg(__parametroGeral).arg(__filtroPesquisa);
+                              " 													   AND tb0.datafa <= ' %0 ' )) ")
+            .arg(__dataReferencia.toString(Qt::ISODate)).arg(__parametroGeral).arg(__filtroPesquisa);
     QSqlQuery consulta;
     consulta.prepare(comando);
-    consulta.setForwardOnly(true);
-    if(consulta.exec()) {
+    if(!consulta.exec()) {
+        emit messagemRetorno(consulta.lastError().text());
+        return __tempMap;
+    } else {
         int pos = 0;
+        consulta.setForwardOnly(true);
         while (consulta.next()) {
-            consulta.next(); pos++;
-            colaborador = new CadastroColaborador(nullptr);
+            consulta.next();
+            CadastroColaborador *colaborador = new CadastroColaborador();
             colaborador->setCodigoDaEmpresa( consulta.value(0).toString());
             colaborador->setEmpresa( consulta.value(1).toString() );
             colaborador->setCodigoDaFilial( consulta.value(2).toString() );
@@ -793,7 +795,7 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
             colaborador->setDataDeAdmissao( QVariant( consulta.value(10) ).toDate() );
             colaborador->setDataDeNascimento( QVariant( consulta.value(11) ).toDate() );
             colaborador->setCodigoDeVinculo( consulta.value(12).toString() );
-            colaborador->setTabelaDeOrganograma( consulta.value(12).toString() );
+            colaborador->setTabelaDeOrganograma( consulta.value(13).toString() );
             colaborador->setNumeroDoLocal( consulta.value(14).toString() );
             colaborador->setHierarquiaDeLocal( consulta.value(15).toString() );
             colaborador->setSetor( consulta.value(16).toString() );
@@ -803,6 +805,7 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
             colaborador->setTipoDeSalario( consulta.value(20).toInt(nullptr) );
             colaborador->setSalario( consulta.value(21).toDouble(nullptr) );
             __tempMap.insert(pos, colaborador);
+            pos++;
 
         }
     }

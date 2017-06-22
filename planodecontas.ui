@@ -161,6 +161,12 @@
       </item>
       <item row="2" column="1">
        <widget class="QDateEdit" name="campoInicioPeriodo">
+        <property name="minimumSize">
+         <size>
+          <width>140</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -168,12 +174,18 @@
          <bool>true</bool>
         </property>
         <property name="displayFormat">
-         <string>MM/yyyy</string>
+         <string>dd/MM/yyyy</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
        <widget class="QDateEdit" name="campoFinalPeriodo">
+        <property name="minimumSize">
+         <size>
+          <width>140</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -181,7 +193,7 @@
          <bool>true</bool>
         </property>
         <property name="displayFormat">
-         <string>MM/yyyy</string>
+         <string>dd/MM/yyyy</string>
         </property>
        </widget>
       </item>

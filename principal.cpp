@@ -6,7 +6,7 @@ Principal::Principal(QWidget *parent) :
     ui(new Ui::Principal)
 {
     ui->setupUi(this);
-    this->setWindowTitle(QString("Severino Tools | Plano de Contas :: Versão 1.1.0 ").append(QT_VERSION_MINOR));
+    this->setWindowTitle(QString("Severino Tools | Build 1.1.0 ").append(QT_VERSION_MINOR));
     local.setDefault(QLocale(QLocale::Portuguese, QLocale::Brazil));
     setTimeSession(QTime::currentTime());
 
@@ -63,15 +63,11 @@ void Principal::aplicarDefinicoesGerais()
         mapEmpresas = ctrl->getEmpresas();
         mapFiliais = ctrl->getFiliais();
     } else {
-        QMessageBox::critical(this, tr("Acesso Banco de Dados"), QString("Não foi possível estabelecer conexão com o banco de dados!"), QMessageBox::Ok);
+        QMessageBox::critical(this, tr("Conexão Banco de Dados"), QString("Não foi possível estabelecer conexão com o banco de dados!"), QMessageBox::Ok);
     }
 
     connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     connect(ui->botaoSair, SIGNAL(clicked(bool)), this, SLOT(close()));
-    connect(ui->botaoAtualizar, SIGNAL(clicked(bool)), this, SLOT(instalarTema()));
-
-    ui->botaoAtualizar->setToolTip(QString("Instalar arquivo de tema CSS"));
-    ui->botaoSair->setToolTip(QString("Sair"));
     ui->campoUsuario->setText("Convidado");
 }
 

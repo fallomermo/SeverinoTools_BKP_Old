@@ -47,7 +47,6 @@ private slots:
 
 private:
     Eventos *evt;
-    CadastroColaborador *colaborador;
     CadastroEmpresa *_cemp;
     CadastroFilial *_cfil;
     double saldoRateioNegativo;
