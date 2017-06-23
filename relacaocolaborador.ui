@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
-    <height>364</height>
+    <width>504</width>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,23 @@
    <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="painelTabela">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLineEdit" name="campoPesquisarObjetosTabela"/>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="tableWidget"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="painelAcoes">
      <property name="title">
       <string/>
      </property>
@@ -66,7 +81,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="painelFiltros">
      <property name="title">
       <string/>
      </property>
@@ -171,13 +186,7 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QTableWidget" name="tableWidget"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLineEdit" name="campoPesquisarObjetosTabela"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="painelResultados">
      <property name="title">
       <string/>
      </property>
@@ -207,10 +216,11 @@
  <tabstops>
   <tabstop>campoID_Empresa</tabstop>
   <tabstop>campoID_Filial</tabstop>
+  <tabstop>dataReferencia</tabstop>
   <tabstop>botaoProcessar</tabstop>
   <tabstop>campoPesquisarObjetosTabela</tabstop>
-  <tabstop>botaoExportar</tabstop>
   <tabstop>tableWidget</tabstop>
+  <tabstop>botaoExportar</tabstop>
  </tabstops>
  <resources>
   <include location="thema.qrc"/>

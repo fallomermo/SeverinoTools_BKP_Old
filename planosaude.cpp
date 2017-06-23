@@ -1,9 +1,7 @@
 #include "planosaude.h"
 #include "ui_planosaude.h"
 
-PlanoSaude::PlanoSaude(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::PlanoSaude)
+PlanoSaude::PlanoSaude(QWidget *parent) : QWidget(parent), ui(new Ui::PlanoSaude)
 {
     ui->setupUi(this);
     QStringList operacoes = QStringList() << "Repasse Empresa" << "Repasse Titular" << "Débitos Cadastro Completo";

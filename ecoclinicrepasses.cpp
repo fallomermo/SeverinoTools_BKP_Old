@@ -1,9 +1,7 @@
 #include "ecoclinicrepasses.h"
 
 EcoclinicRepasses::EcoclinicRepasses(QObject *parent) : QObject(parent)
-{
-
-}
+{}
 
 QString EcoclinicRepasses::getID_Empresa() const
 {

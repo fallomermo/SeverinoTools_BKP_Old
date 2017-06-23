@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QMap>
 
+
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "bancodedados.h"

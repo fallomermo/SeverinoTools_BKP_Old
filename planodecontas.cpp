@@ -1,9 +1,7 @@
 #include "planodecontas.h"
 #include "ui_planodecontas.h"
 
-PlanoDeContas::PlanoDeContas(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::PlanoDeContas)
+PlanoDeContas::PlanoDeContas(QWidget *parent) : QWidget(parent), ui(new Ui::PlanoDeContas)
 {
     ui->setupUi(this);
     controle = new ControleDAO(this);
@@ -32,8 +30,6 @@ PlanoDeContas::PlanoDeContas(QWidget *parent, QMap<int, CadastroEmpresa *> ce, Q
     connect(ui->campoIDFilial,SIGNAL(returnPressed()), this, SLOT(focusInicioPeriodo()));
     connect(ui->campoInicioPeriodo, SIGNAL(editingFinished()), this, SLOT(focusFinalPeriodo()));
     connect(ui->campoFinalPeriodo, SIGNAL(editingFinished()), this, SLOT(focusProcessar()));
-//    connect(ui->botaoPesquisaEmpresa,SIGNAL(clicked(bool)),this, SLOT(pesquisarEmpresa()));
-//    connect(ui->botaoPesquisaFilial,SIGNAL(clicked(bool)),this, SLOT(pesquisarFilial()));
     connect(ui->botaoProcessar,SIGNAL(clicked(bool)), this, SLOT(getDatatable()));
     connect(ui->botaoExportar,SIGNAL(clicked(bool)), this, SLOT(exportarParaExcel()));
     connect(ui->tableWidget,SIGNAL(clicked(QModelIndex)), this, SLOT(atualizarResultados(QModelIndex)));

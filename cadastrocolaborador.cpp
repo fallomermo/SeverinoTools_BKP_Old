@@ -1,9 +1,7 @@
 #include "cadastrocolaborador.h"
 
 CadastroColaborador::CadastroColaborador(QObject *parent) : QObject(parent)
-{
-
-}
+{}
 
 QString CadastroColaborador::getCodigoDaEmpresa() const
 {

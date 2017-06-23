@@ -5,6 +5,8 @@
 #include <QString>
 #include <QDate>
 
+// Inlcuindo clases manuais do projeto
+
 class CadastroColaborador : public QObject
 {
     Q_OBJECT

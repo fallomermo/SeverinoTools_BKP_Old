@@ -3,6 +3,9 @@
 
 #include <QObject>
 
+// Inlcuindo clases manuais do projeto
+
+
 class CadastroEmpresa : public QObject
 {
     Q_OBJECT

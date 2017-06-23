@@ -778,6 +778,7 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
     } else {
         int pos = 0;
         consulta.setForwardOnly(true);
+        consulta.setNumericalPrecisionPolicy(QSql::NumericalPrecisionPolicy);
         if(consulta.first())
             while (consulta.next()) {
                 consulta.next();

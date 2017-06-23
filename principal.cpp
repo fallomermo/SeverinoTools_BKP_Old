@@ -1,9 +1,7 @@
 #include "principal.h"
 #include "ui_principal.h"
 
-Principal::Principal(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Principal)
+Principal::Principal(QWidget *parent) : QWidget(parent), ui(new Ui::Principal)
 {
     ui->setupUi(this);
     this->setWindowTitle(QString("Severino Tools | Build 1.1.0 ").append(QT_VERSION_MINOR));

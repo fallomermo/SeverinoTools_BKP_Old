@@ -1,9 +1,7 @@
 #include "guiainssfolha.h"
 #include "ui_guiainssfolha.h"
 
-GuiaINSSFolha::GuiaINSSFolha(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::GuiaINSSFolha)
+GuiaINSSFolha::GuiaINSSFolha(QWidget *parent) : QWidget(parent), ui(new Ui::GuiaINSSFolha)
 {
     ui->setupUi(this);
     ui->periodoInicial->setDate(QDateTime::currentDateTime().date());

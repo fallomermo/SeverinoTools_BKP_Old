@@ -1,9 +1,7 @@
 #include "pesquisar.h"
 #include "ui_pesquisar.h"
 
-Pesquisar::Pesquisar(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Pesquisar)
+Pesquisar::Pesquisar(QWidget *parent) : QWidget(parent), ui(new Ui::Pesquisar)
 {
     ui->setupUi(this);
 }

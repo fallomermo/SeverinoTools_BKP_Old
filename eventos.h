@@ -7,6 +7,11 @@
 #include <QMultiMap>
 #include <QMapIterator>
 
+
+// Inlcuindo clases manuais do projeto
+
+
+
 class Eventos : public QObject
 {
     Q_OBJECT

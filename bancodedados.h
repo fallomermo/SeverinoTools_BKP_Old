@@ -11,6 +11,7 @@
 #include <QSqlResult>
 #include <QSqlDatabase>
 
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "ecoclinicrepasses.h"

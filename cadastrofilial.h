@@ -3,6 +3,10 @@
 
 #include <QObject>
 
+
+// Inlcuindo clases manuais do projeto
+
+
 class CadastroFilial : public QObject
 {
     Q_OBJECT
