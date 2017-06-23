@@ -17,12 +17,6 @@
    <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="3" column="0">
-    <widget class="QTableWidget" name="tableWidget"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLineEdit" name="campoPesquisarObjetosTabela"/>
-   </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
@@ -170,6 +164,38 @@
           <month>6</month>
           <day>22</day>
          </date>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QTableWidget" name="tableWidget"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLineEdit" name="campoPesquisarObjetosTabela"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="campoItemSelecionado">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="campoTotalRegistros">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>

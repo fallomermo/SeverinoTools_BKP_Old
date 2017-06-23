@@ -26,6 +26,8 @@ RelacaoColaborador::RelacaoColaborador(QWidget *parent, QMap<int, CadastroEmpres
     connect(_act_fil, SIGNAL(triggered(bool)), this, SLOT(pesquisarFilial()));
     connect(ui->botaoProcessar, SIGNAL(clicked(bool)), this, SLOT(getDatatable()));
     connect(ui->botaoExportar, SIGNAL(clicked(bool)), this, SLOT(exportarParaExcel()));
+    connect(ui->tableWidget,SIGNAL(clicked(QModelIndex)), this, SLOT(exibirNumeroRegistros(QModelIndex)));
+    connect(ui->tableWidget,SIGNAL(activated(QModelIndex)), this, SLOT(exibirNumeroRegistros(QModelIndex)));
 
     QStringList labels = QStringList() << "Codigo da Empresa"
                                        << "Empresa"
@@ -229,7 +231,7 @@ void RelacaoColaborador::getDatatable()
     QMap<int, CadastroColaborador*> __tempMap = controle->getColaboradoresAtivos(
                 ui->campoID_Empresa->text(),
                 ui->campoID_Filial->text(),
-                ui->dataReferencia->date(),"");
+                ui->dataReferencia->date());
     progresso.setLabelText("Processando dados...");
 
     if(__tempMap.isEmpty()) {
@@ -370,6 +372,23 @@ void RelacaoColaborador::exportarParaExcel()
             }
             f.close();
             QMessageBox::information(this, tr("Exportação para Arquivo CSV"), QString("Arquivo salvo com Sucesso!"), QMessageBox::Ok);
+        }
+    }
+}
+
+void RelacaoColaborador::exibirNumeroRegistros(QModelIndex i)
+{
+    if(i.column() > 21)
+        return;
+
+    QTableWidgetItem *_item = ui->tableWidget->item(i.row(), i.column());
+    int iValue = 0;
+    QString sValue = _item->text();
+    for (int linha = 0; linha < ui->tableWidget->rowCount(); ++linha) {
+        for (int coluna = 0; coluna <= i.column(); ++coluna) {
+            if(sValue.contains(ui->tableWidget->item(linha, coluna)->text())) {
+                iValue++;
+            }
         }
     }
 }

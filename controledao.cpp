@@ -45,11 +45,11 @@ QMap<int, EcoclinicRepasses *> ControleDAO::getPlanoSaude(QString dInicio, QStri
     return db->getPlanoSaude(dInicio, dFinal, r);
 }
 
-QMap<int, CadastroColaborador *> ControleDAO::getColaboradoresAtivos(QString __ID_Empresa, QString __ID_Filial, QDate __dataReferencia, QString __filtroPesquisa)
+QMap<int, CadastroColaborador *> ControleDAO::getColaboradoresAtivos(QString __ID_Empresa, QString __ID_Filial, QDate __dataReferencia)
 {
     db = new BancoDeDados;
     connect(db, SIGNAL(statusProgresso(int,int)),this, SLOT(statusProgressoAtual(int,int)));
-    return db->getColaboradoresAtivos(__ID_Empresa, __ID_Filial, __dataReferencia, __filtroPesquisa);
+    return db->getColaboradoresAtivos(__ID_Empresa, __ID_Filial, __dataReferencia);
 }
 
 void ControleDAO::mensagemRetornoUsuario(QString msg)

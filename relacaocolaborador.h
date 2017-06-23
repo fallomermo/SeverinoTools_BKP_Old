@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QProgressDialog>
 #include <QMapIterator>
+#include <QModelIndex>
 
 
 #include "pesquisar.h"
@@ -51,6 +52,7 @@ private slots:
     void inserirItemTabela(int,int,int);
     void inserirLinhaTabela(int, int, CadastroColaborador *);
     void exportarParaExcel();
+    void exibirNumeroRegistros(QModelIndex);
 
 private:
     Ui::RelacaoColaborador *ui;

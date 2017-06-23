@@ -63,4 +63,3 @@ FORMS += \
 
 RESOURCES += \
     thema.qrc
-

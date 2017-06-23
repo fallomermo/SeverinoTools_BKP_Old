@@ -30,7 +30,7 @@ public:
     QMap<int, Eventos*> getGuiaINSS(QString, QString, QString, QString);
     QMap<int, Eventos*> atualizarSaldosRateioGuia(QMap<int, Eventos*>, double);
     QMap<int, Eventos*> processarSaldosRegistros(QMap<QString, QMap<int, Eventos*>>);
-    QMap<int, CadastroColaborador*> getColaboradoresAtivos(QString, QString, QDate, QString);
+    QMap<int, CadastroColaborador*> getColaboradoresAtivos(QString, QString, QDate);
 
     double getSaldoRateioNegativo() const;
     void setSaldoRateioNegativo(double value);
