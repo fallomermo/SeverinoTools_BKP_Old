@@ -1,9 +1,7 @@
 #include "cadastroempresa.h"
 
 CadastroEmpresa::CadastroEmpresa(QObject *parent) : QObject(parent)
-{
-
-}
+{}
 
 QString CadastroEmpresa::getID_Empresa() const
 {

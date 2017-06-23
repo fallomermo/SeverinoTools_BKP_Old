@@ -2,7 +2,10 @@
 #define CADASTROCOLABORADOR_H
 
 #include <QObject>
+#include <QString>
 #include <QDate>
+
+// Inlcuindo clases manuais do projeto
 
 class CadastroColaborador : public QObject
 {
@@ -73,16 +76,15 @@ public:
     double getSalario() const;
     void setSalario(double value);
 
-
-signals:
-
-public slots:
+    QString getCidadeRegiao() const;
+    void setCidadeRegiao(const QString &value);
 
 private:
     QString CodigoDaEmpresa;
     QString Empresa;
     QString CodigoDaFilial;
     QString Filial;
+    QString CidadeRegiao;
     QString CNPJ;
     QString Matricula;
     QString CPF;

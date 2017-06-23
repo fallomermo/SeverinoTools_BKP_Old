@@ -639,30 +639,28 @@ QMap<int, Eventos *> BancoDeDados::processarSaldosRegistros(QMap<QString, QMap<i
     return __mapAgro;
 }
 
-QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __ID_Empresa, QString __ID_Filial, QDate __dataReferencia, QString __filtroPesquisa)
+QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __ID_Empresa, QString __ID_Filial, QDate __dataReferencia)
 {
     QMap<int, CadastroColaborador*> __tempMap;
-
     QString __parametroGeral;
     if(__ID_Empresa.isEmpty() && __dataReferencia.year() >= 2013) {
         __parametroGeral = QString(" > 1000 ");
         if(!__ID_Filial.isEmpty())
-            __parametroGeral.append(QString(" AND hfi.codfil IN (%0)").arg(__ID_Filial));
+            __parametroGeral.append(QString(" AND hfi.codfil IN ( ").append(__ID_Filial).append(" ) "));
     } else {
-        __parametroGeral = QString(" IN (%0) ").arg(__ID_Empresa);
+        __parametroGeral = QString(" IN ( ").append(__ID_Empresa).append(" ) ");
         if(!__ID_Filial.isEmpty())
-            __parametroGeral.append(QString(" AND hfi.codfil IN (%0)").arg(__ID_Filial));
+            __parametroGeral.append(QString(" AND hfi.codfil IN ( ").append(__ID_Filial).append(" ) "));
     }
 
-    QString comando = QString(" "
-                              " SELECT fun.numemp, "
+    QString comando = QString(" SELECT fun.numemp, "
                               "        fil.razsoc, "
                               "        hfi.codfil, "
                               "        fil.nomfil, "
+                              "        cid.nomcid, "
                               "        fil.numcgc, "
                               "        fun.numcad, "
                               "        fun.numcpf, "
-                              "        fun.numpis, "
                               "        fun.nomfun, "
                               "        fun.datadm, "
                               "        fun.datnas, "
@@ -716,7 +714,7 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "                                     WHERE  tb3.numemp = hca.numemp "
                               "                                            AND tb3.tipcol = hca.tipcol "
                               "                                            AND tb3.numcad = hca.numcad "
-                              "                                            AND tb3.datalt <= ' %0 ' ) "
+                              "                                            AND tb3.datalt <= ' %0 ') "
                               "        INNER JOIN r038hsa hsa "
                               "                ON hsa.numemp = fun.numemp "
                               "                   AND hsa.tipcol = fun.tipcol "
@@ -732,25 +730,28 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "                                     WHERE  tb5.numemp = hsa.numemp "
                               "                                            AND tb5.tipcol = hsa.tipcol "
                               "                                            AND tb5.numcad = hsa.numcad "
-                              " 										   AND tb5.datalt = hsa.datalt) "
+                              "                                            AND tb5.datalt = hsa.datalt) "
                               "        INNER JOIN r022vin vin  "
-                              " 		       ON vin.codvin = hvi.codvin "
-                              " 				  AND vin.calfol = 'S' "
+                              "                ON vin.codvin = hvi.codvin "
+                              "                   AND vin.calfol = 'S' "
                               "        INNER JOIN r030fil fil  "
-                              " 		       ON fil.numemp = fun.numemp "
-                              " 				  AND fil.codfil = hfi.codfil "
+                              "                ON fil.numemp = fun.numemp "
+                              "                   AND fil.codfil = hfi.codfil "
+                              "        INNER JOIN r074cid cid  "
+                              "                ON cid.estcid = fil.codest "
+                              "                   AND cid.codcid = fil.codcid "
                               "        INNER JOIN r016hie hie  "
-                              " 		       ON hie.taborg = hlo.taborg "
-                              " 				  AND hie.numloc = hlo.numloc "
-                              " 				  AND hie.datini <= ' %0 ' "
-                              " 				  AND hie.datfim >= ' %0 ' "
+                              "                ON hie.taborg = hlo.taborg "
+                              "                   AND hie.numloc = hlo.numloc "
+                              "                   AND hie.datini <= ' %0 ' "
+                              "                   AND hie.datfim >= ' %0 ' "
                               "        INNER JOIN r016orn orn  "
-                              " 		       ON orn.taborg = hlo.taborg "
-                              " 				  AND orn.numloc = hlo.numloc "
+                              "                ON orn.taborg = hlo.taborg "
+                              "                   AND orn.numloc = hlo.numloc "
                               "        INNER JOIN r024car car  "
-                              " 		       ON car.estcar = hca.estcar "
-                              " 				  AND car.codcar = hca.codcar "
-                              " WHERE  fun.numemp %1 %2"
+                              "                ON car.estcar = hca.estcar "
+                              "                   AND car.codcar = hca.codcar "
+                              " WHERE  fun.numemp %1 "
                               "        AND fun.datadm <= ' %0 ' "
                               "        AND NOT EXISTS (SELECT 1 "
                               "                        FROM   r038afa afa "
@@ -765,40 +766,46 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
                               "                                                        AND tb0.numcad = afa.numcad "
                               "                                                        AND tb0.sitafa = t01.codsit "
                               "                                                        AND t01.tipsit = 7 "
-                              " 													   AND tb0.datafa <= ' %0 ' )) "
-                              " ORDER  BY fun.numemp, "
-                              "           fun.numcad   ").arg(__dataReferencia.toString(Qt::ISODate)).arg(__parametroGeral).arg(__filtroPesquisa);
+                              "                                                        AND tb0.datafa <= ' %0 ')) "
+                              " ORDER  BY fun.numemp, hfi.codfil, fun.numcad ")
+            .arg(__dataReferencia.toString(Qt::ISODate))
+            .arg(__parametroGeral);
     QSqlQuery consulta;
-    consulta.prepare(comando);
-    qDebug() << consulta.lastQuery();
     consulta.setForwardOnly(true);
-    if(consulta.exec()) {
+    consulta.prepare(comando);
+    if(!consulta.exec()) {
+        emit messagemRetorno(consulta.lastError().text());
+        return __tempMap;
+    } else {
         int pos = 0;
+        if(consulta.first());
+        qDebug() << "numero de registros: " << consulta.size();
         while (consulta.next()) {
-            consulta.next(); pos++;
-            colaborador->setCodigoDaEmpresa( consulta.value("numemp").toString() );
-            colaborador->setEmpresa( consulta.value("razsoc").toString() );
-            colaborador->setCodigoDaFilial( consulta.value("codfil").toString() );
-            colaborador->setFilial( consulta.value("nomfil").toString() );
-            colaborador->setCNPJ( consulta.value("numcgc").toString() );
-            colaborador->setMatricula( consulta.value("numcad").toString() );
-            colaborador->setCPF( consulta.value("numcpf").toString() );
-            colaborador->setPIS( consulta.value("numpis").toString() );
-            colaborador->setNome( consulta.value("nomfun").toString() );
-            colaborador->setDataDeAdmissao( QVariant( consulta.value("datadm") ).toDate() );
-            colaborador->setDataDeNascimento( QVariant( consulta.value("datnas") ).toDate() );
-            colaborador->setCodigoDeVinculo( consulta.value("codvin").toString() );
-            colaborador->setTabelaDeOrganograma( consulta.value("taborg").toString() );
-            colaborador->setNumeroDoLocal( consulta.value("numloc").toString() );
-            colaborador->setHierarquiaDeLocal( consulta.value("codloc").toString() );
-            colaborador->setSetor( consulta.value("nomloc").toString() );
-            colaborador->setEstruturaDeCargos( consulta.value("estcar").toString() );
-            colaborador->setCodigoDoCargo( consulta.value("codcar").toString() );
-            colaborador->setCargo( consulta.value("titcar").toString() );
-            colaborador->setTipoDeSalario( consulta.value("tipsal").toInt(nullptr) );
-            colaborador->setSalario( consulta.value("valsal").toDouble(nullptr) );
+            consulta.next();
+            CadastroColaborador *colaborador = new CadastroColaborador();
+            colaborador->setCodigoDaEmpresa( QVariant( consulta.value( 0 ) ).toString() );
+            colaborador->setEmpresa( QVariant( consulta.value( 1 ) ).toString() );
+            colaborador->setCodigoDaFilial( QVariant( consulta.value( 2 ) ).toString() );
+            colaborador->setFilial( QVariant( consulta.value( 3 ) ).toString() );
+            colaborador->setCidadeRegiao( QVariant( consulta.value( 4 ) ).toString() );
+            colaborador->setCNPJ( QVariant( consulta.value( 5 ) ).toString() );
+            colaborador->setMatricula( QVariant( consulta.value( 6 ) ).toString() );
+            colaborador->setCPF( QVariant( consulta.value( 7 ) ).toString() );
+            colaborador->setNome( QVariant( consulta.value( 8 ) ).toString() );
+            colaborador->setDataDeAdmissao( QVariant( consulta.value( 9 ) ).toDate() );
+            colaborador->setDataDeNascimento( QVariant( consulta.value( 10 ) ).toDate() );
+            colaborador->setCodigoDeVinculo( QVariant( consulta.value( 11 ) ).toString() );
+            colaborador->setTabelaDeOrganograma( QVariant( consulta.value( 12 ) ).toString() );
+            colaborador->setNumeroDoLocal( QVariant( consulta.value( 13 ) ).toString() );
+            colaborador->setHierarquiaDeLocal( QVariant( consulta.value( 14 ) ).toString() );
+            colaborador->setSetor( QVariant( consulta.value( 15 ) ).toString() );
+            colaborador->setEstruturaDeCargos( QVariant( consulta.value( 16 ) ).toString() );
+            colaborador->setCodigoDoCargo( QVariant( consulta.value( 17 ) ).toString() );
+            colaborador->setCargo( QVariant( consulta.value( 18 ) ).toString() );
+            colaborador->setTipoDeSalario( QVariant( consulta.value( 19 ) ).toInt(nullptr) );
+            colaborador->setSalario( QVariant( consulta.value( 20 ) ).toDouble(nullptr) );
             __tempMap.insert(pos, colaborador);
-
+            pos++;
         }
     }
     return __tempMap;

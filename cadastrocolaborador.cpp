@@ -1,9 +1,7 @@
 #include "cadastrocolaborador.h"
 
 CadastroColaborador::CadastroColaborador(QObject *parent) : QObject(parent)
-{
-
-}
+{}
 
 QString CadastroColaborador::getCodigoDaEmpresa() const
 {
@@ -203,6 +201,16 @@ double CadastroColaborador::getSalario() const
 void CadastroColaborador::setSalario(double value)
 {
     Salario = value;
+}
+
+QString CadastroColaborador::getCidadeRegiao() const
+{
+    return CidadeRegiao;
+}
+
+void CadastroColaborador::setCidadeRegiao(const QString &value)
+{
+    CidadeRegiao = value;
 }
 
 QString CadastroColaborador::getPIS() const

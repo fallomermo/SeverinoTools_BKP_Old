@@ -4,6 +4,10 @@
 #include <QObject>
 #include <QDate>
 
+
+// Inlcuindo clases manuais do projeto
+
+
 class EcoclinicRepasses : public QObject
 {
     Q_OBJECT

@@ -10,11 +10,14 @@
 #include <QSharedPointer>
 #include <QMovie>
 
+
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "pesquisar.h"
 #include "eventos.h"
 #include "controledao.h"
+
 
 namespace Ui {
 class GuiaINSSFolha;

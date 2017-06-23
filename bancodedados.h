@@ -11,6 +11,7 @@
 #include <QSqlResult>
 #include <QSqlDatabase>
 
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "ecoclinicrepasses.h"
@@ -30,7 +31,7 @@ public:
     QMap<int, Eventos*> getGuiaINSS(QString, QString, QString, QString);
     QMap<int, Eventos*> atualizarSaldosRateioGuia(QMap<int, Eventos*>, double);
     QMap<int, Eventos*> processarSaldosRegistros(QMap<QString, QMap<int, Eventos*>>);
-    QMap<int, CadastroColaborador*> getColaboradoresAtivos(QString, QString, QDate, QString);
+    QMap<int, CadastroColaborador*> getColaboradoresAtivos(QString, QString, QDate);
 
     double getSaldoRateioNegativo() const;
     void setSaldoRateioNegativo(double value);
@@ -47,7 +48,6 @@ private slots:
 
 private:
     Eventos *evt;
-    CadastroColaborador *colaborador;
     CadastroEmpresa *_cemp;
     CadastroFilial *_cfil;
     double saldoRateioNegativo;

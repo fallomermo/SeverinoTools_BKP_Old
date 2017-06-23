@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>713</width>
-    <height>443</height>
+    <width>623</width>
+    <height>367</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="2" column="0" colspan="2">
@@ -35,6 +38,12 @@
       </item>
       <item row="0" column="1">
        <widget class="QDateEdit" name="periodoInicial">
+        <property name="minimumSize">
+         <size>
+          <width>159</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <weight>75</weight>
@@ -61,6 +70,12 @@
       </item>
       <item row="1" column="1">
        <widget class="QDateEdit" name="periodoFinal">
+        <property name="minimumSize">
+         <size>
+          <width>159</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <weight>75</weight>

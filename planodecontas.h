@@ -18,11 +18,12 @@
 #include <QTableWidgetItem>
 
 
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "controledao.h"
 #include "pesquisar.h"
-#include "caixademensagem.h"
+
 
 namespace Ui {
 class PlanoDeContas;
@@ -78,7 +79,6 @@ private:
     CadastroEmpresa *_cemp;
     CadastroFilial *_cfil;
     ControleDAO *controle;
-    CaixaDeMensagem *box_msg;
     bool _statusProgresso;
 };
 

@@ -1,6 +1,7 @@
 #include "eventos.h"
 
-Eventos::Eventos(QObject *parent) : QObject(parent) {}
+Eventos::Eventos(QObject *parent) : QObject(parent)
+{}
 
 QString Eventos::getID_Empresa() const
 {

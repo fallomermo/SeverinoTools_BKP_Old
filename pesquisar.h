@@ -7,8 +7,11 @@
 #include <QMapIterator>
 #include <QMessageBox>
 
+
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
+
 
 namespace Ui {
 class Pesquisar;

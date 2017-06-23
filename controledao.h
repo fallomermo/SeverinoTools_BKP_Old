@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QMap>
 
+
+// Inlcuindo clases manuais do projeto
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "bancodedados.h"
@@ -23,7 +25,7 @@ public:
     QMap<int, Eventos*> getPlanoContas(QString,QString,QString,QString);
     QMap<int, Eventos*> getGuiaINSS(QString, QString, QString, QString);
     QMap<int, EcoclinicRepasses*> getPlanoSaude(QString, QString, int);
-    QMap<int, CadastroColaborador*> getColaboradoresAtivos(QString, QString, QDate, QString);
+    QMap<int, CadastroColaborador*> getColaboradoresAtivos(QString, QString, QDate);
 
 signals:
     void mensagemRetorno(QString);

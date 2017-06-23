@@ -17,6 +17,8 @@
 #include <QCloseEvent>
 #include <QGraphicsDropShadowEffect>
 
+
+// Inlcuindo clases manuais do projeto
 #include "planodecontas.h"
 #include "controledao.h"
 #include "cadastroempresa.h"
@@ -24,6 +26,7 @@
 #include "planosaude.h"
 #include "guiainssfolha.h"
 #include "relacaocolaborador.h"
+
 
 namespace Ui {
 class Principal;

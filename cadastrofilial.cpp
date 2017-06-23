@@ -1,9 +1,7 @@
 #include "cadastrofilial.h"
 
 CadastroFilial::CadastroFilial(QObject *parent) : QObject(parent)
-{
-
-}
+{}
 
 QString CadastroFilial::getID_Empresa() const
 {

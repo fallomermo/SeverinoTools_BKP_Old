@@ -8,13 +8,16 @@
 #include <QMessageBox>
 #include <QProgressDialog>
 #include <QMapIterator>
+#include <QModelIndex>
 
 
+// Inlcuindo clases manuais do projeto
 #include "pesquisar.h"
 #include "controledao.h"
 #include "cadastroempresa.h"
 #include "cadastrofilial.h"
 #include "cadastrocolaborador.h"
+
 
 namespace Ui {
 class RelacaoColaborador;
@@ -51,6 +54,7 @@ private slots:
     void inserirItemTabela(int,int,int);
     void inserirLinhaTabela(int, int, CadastroColaborador *);
     void exportarParaExcel();
+    void exibirNumeroRegistros(QModelIndex);
 
 private:
     Ui::RelacaoColaborador *ui;
