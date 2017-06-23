@@ -771,42 +771,41 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
             .arg(__dataReferencia.toString(Qt::ISODate))
             .arg(__parametroGeral);
     QSqlQuery consulta;
+    consulta.setForwardOnly(true);
     consulta.prepare(comando);
     if(!consulta.exec()) {
         emit messagemRetorno(consulta.lastError().text());
         return __tempMap;
     } else {
         int pos = 0;
-        consulta.setForwardOnly(true);
-        consulta.setNumericalPrecisionPolicy(QSql::NumericalPrecisionPolicy);
-        if(consulta.first())
-            while (consulta.next()) {
-                consulta.next();
-                CadastroColaborador *colaborador = new CadastroColaborador();
-                colaborador->setCodigoDaEmpresa( QVariant( consulta.value( 0 ) ).toString() );
-                colaborador->setEmpresa( QVariant( consulta.value( 1 ) ).toString() );
-                colaborador->setCodigoDaFilial( QVariant( consulta.value( 2 ) ).toString() );
-                colaborador->setFilial( QVariant( consulta.value( 3 ) ).toString() );
-                colaborador->setCidadeRegiao( QVariant( consulta.value( 4 ) ).toString() );
-                colaborador->setCNPJ( QVariant( consulta.value( 5 ) ).toString() );
-                colaborador->setMatricula( QVariant( consulta.value( 6 ) ).toString() );
-                colaborador->setCPF( QVariant( consulta.value( 7 ) ).toString() );
-                colaborador->setNome( QVariant( consulta.value( 8 ) ).toString() );
-                colaborador->setDataDeAdmissao( QVariant( consulta.value( 9 ) ).toDate() );
-                colaborador->setDataDeNascimento( QVariant( consulta.value( 10 ) ).toDate() );
-                colaborador->setCodigoDeVinculo( QVariant( consulta.value( 11 ) ).toString() );
-                colaborador->setTabelaDeOrganograma( QVariant( consulta.value( 12 ) ).toString() );
-                colaborador->setNumeroDoLocal( QVariant( consulta.value( 13 ) ).toString() );
-                colaborador->setHierarquiaDeLocal( QVariant( consulta.value( 14 ) ).toString() );
-                colaborador->setSetor( QVariant( consulta.value( 15 ) ).toString() );
-                colaborador->setEstruturaDeCargos( QVariant( consulta.value( 16 ) ).toString() );
-                colaborador->setCodigoDoCargo( QVariant( consulta.value( 17 ) ).toString() );
-                colaborador->setCargo( QVariant( consulta.value( 18 ) ).toString() );
-                colaborador->setTipoDeSalario( QVariant( consulta.value( 19 ) ).toInt(nullptr) );
-                colaborador->setSalario( QVariant( consulta.value( 20 ) ).toDouble(nullptr) );
-                __tempMap.insert(pos, colaborador);
-                pos++;
-            }
+        consulta.first();
+        while (consulta.next() && consulta.isForwardOnly()) {
+            consulta.next();
+            CadastroColaborador *colaborador = new CadastroColaborador();
+            colaborador->setCodigoDaEmpresa( QVariant( consulta.value( 0 ) ).toString() );
+            colaborador->setEmpresa( QVariant( consulta.value( 1 ) ).toString() );
+            colaborador->setCodigoDaFilial( QVariant( consulta.value( 2 ) ).toString() );
+            colaborador->setFilial( QVariant( consulta.value( 3 ) ).toString() );
+            colaborador->setCidadeRegiao( QVariant( consulta.value( 4 ) ).toString() );
+            colaborador->setCNPJ( QVariant( consulta.value( 5 ) ).toString() );
+            colaborador->setMatricula( QVariant( consulta.value( 6 ) ).toString() );
+            colaborador->setCPF( QVariant( consulta.value( 7 ) ).toString() );
+            colaborador->setNome( QVariant( consulta.value( 8 ) ).toString() );
+            colaborador->setDataDeAdmissao( QVariant( consulta.value( 9 ) ).toDate() );
+            colaborador->setDataDeNascimento( QVariant( consulta.value( 10 ) ).toDate() );
+            colaborador->setCodigoDeVinculo( QVariant( consulta.value( 11 ) ).toString() );
+            colaborador->setTabelaDeOrganograma( QVariant( consulta.value( 12 ) ).toString() );
+            colaborador->setNumeroDoLocal( QVariant( consulta.value( 13 ) ).toString() );
+            colaborador->setHierarquiaDeLocal( QVariant( consulta.value( 14 ) ).toString() );
+            colaborador->setSetor( QVariant( consulta.value( 15 ) ).toString() );
+            colaborador->setEstruturaDeCargos( QVariant( consulta.value( 16 ) ).toString() );
+            colaborador->setCodigoDoCargo( QVariant( consulta.value( 17 ) ).toString() );
+            colaborador->setCargo( QVariant( consulta.value( 18 ) ).toString() );
+            colaborador->setTipoDeSalario( QVariant( consulta.value( 19 ) ).toInt(nullptr) );
+            colaborador->setSalario( QVariant( consulta.value( 20 ) ).toDouble(nullptr) );
+            __tempMap.insert(pos, colaborador);
+            pos++;
+        }
     }
     return __tempMap;
 }

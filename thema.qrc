@@ -77,5 +77,6 @@
         <file>images/tax.png</file>
         <file>images/droplet.png</file>
         <file>images/water-drop.png</file>
+        <file>images/tema.qss.css</file>
     </qresource>
 </RCC>

@@ -19,6 +19,7 @@ Principal::~Principal()
 void Principal::aplicarDefinicoesGerais()
 {
     qApp->setWindowIcon(QIcon(":/images/iconeSeverino.png"));
+    atualizarTema();
     ui->toolButton->setPopupMode(QToolButton::InstantPopup);
     QAction *actionPlanoContas = new QAction(QIcon(":/images/tax.png"), "&Plano de Contas",ui->toolButton);
     QAction *actionPlanoSaude = new QAction(QIcon(":/images/heart.png"), "&Plano de Saúde",ui->toolButton);
@@ -147,7 +148,7 @@ void Principal::closeTab(int i)
 
 void Principal::atualizarTema()
 {
-    QFile file(QString(":/images/aqua.qss"));
+    QFile file(QString(":/images/tema.qss"));
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
