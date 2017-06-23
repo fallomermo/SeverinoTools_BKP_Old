@@ -778,8 +778,9 @@ QMap<int, CadastroColaborador *> BancoDeDados::getColaboradoresAtivos(QString __
         return __tempMap;
     } else {
         int pos = 0;
-        consulta.first();
-        while (consulta.next() && consulta.isForwardOnly()) {
+        if(consulta.first());
+        qDebug() << "numero de registros: " << consulta.size();
+        while (consulta.next()) {
             consulta.next();
             CadastroColaborador *colaborador = new CadastroColaborador();
             colaborador->setCodigoDaEmpresa( QVariant( consulta.value( 0 ) ).toString() );
